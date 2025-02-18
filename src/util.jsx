@@ -1,7 +1,7 @@
 
-export default function getRowsAndColsCount(size, visiableSize){
+export default function getRowsAndColsCount(size, visiableSize, offset){
 
-    let start=0;
+    let start=offset;
     let count=0;
 
     while(start<=visiableSize){
@@ -26,4 +26,16 @@ export function resizeCanvas(canvas){
     canvas.height= newCanvasHeight;
 
     context.scale(ratio, ratio);
+}
+
+export function getEncodedChar(num){
+    let result=''
+
+    while (num){
+        const rem= (num-1)%26;
+        result= String.fromCharCode(rem+65)+result;
+        num= Math.floor((num-1)/26);
+    }
+
+    return result;
 }
