@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 import getRowsAndColsCount from "./util";
 import { resizeCanvas } from "./util";
@@ -8,8 +8,8 @@ const Sheet= ()=>{
 
     const canvasRef= useRef();
 
-    const CanvasWidth= window.innerWidth;
-    const CanvasHeight= window.innerHeight;
+    const [CanvasWidth, setCanvasWidth]= useState(window.innerWidth);
+    const [CanvasHeight, setCanvasHeight]= useState(window.innerHeight);
 
     const CellWidth= 100;
     const CellHeight= 20;
@@ -111,6 +111,17 @@ const Sheet= ()=>{
             startY+=CellHeight;
         }
     })
+
+    useEffect(()=>{
+        const resizeCanvas= ()=>{
+            setCanvasHeight(window.innerHeight);
+            setCanvasWidth(window.innerWidth);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        return ()=>{window.removeEventListener('resize')};
+    }, [CanvasHeight, CanvasWidth])
 
     console.log(colCount, rowCount);
 
